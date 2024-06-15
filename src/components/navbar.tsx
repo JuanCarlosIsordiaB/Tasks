@@ -8,7 +8,7 @@ const NavBar = () => {
         <nav className="flex justify-between p-4">
             <h1>Crud</h1> 
             <div className="flex items-center gap-3">
-                <Link href="/new" className="flex items-center bg-indigo-500 p-1 rounded-md text-m hover:bg-indigo-800 transition-all "> <PlusCircle className="px-1 text-white"/> <p className="text-xs text-white">Add Task</p></Link>
+                <Link href="/new" className="flex items-center bg-indigo-500 py-3 px-2 rounded-md text-m hover:bg-indigo-800 transition-all "> <PlusCircle className="pr-1 text-white w-4 h-4"/> <p className="text-xs text-white">Add Task</p></Link>
                 <ModeToggle/>
             </div>
             
