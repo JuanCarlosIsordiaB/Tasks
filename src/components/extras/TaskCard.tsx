@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import {
   Card,
@@ -17,7 +17,7 @@ interface TaskProps {
   name: string;
   description: string | null;
   priority: string;
-  date: string;
+  date: string; // Assume format is "dd/mm/yyyy"
 }
 
 export const TaskCard = ({
@@ -35,31 +35,76 @@ export const TaskCard = ({
 
   const truncateDescription = (text: string | null) => {
     if (!text) return "";
-    const words = text.split(" ");
-    if (words.length <= 15) return text;
-    return words.slice(0, 15).join(" ") + "...";
+    if (text.length <= 50) return text;
+    return text.slice(0, 50) + "...";
+  };
+
+  const checkPriority = (priority: string) => {
+    switch (priority) {
+      case "low":
+        return "Low 👍";
+      case "medium":
+        return "Medium 👌";
+      case "high":
+        return "High 🚨";
+      case "urgent":
+        return "Urgent❗❗";
+      default:
+        return "No Priority";
+    }
+  };
+
+  const dayCounter = (date: string) => {
+    const today = new Date();
+    const [day, month, year] = date.split("/").map(Number);
+    const taskDate = new Date(year, month - 1, day);
+    const diff = taskDate.getTime() - today.getTime();
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    if(days < 0) return "Task Overdue";
+    return days;
   };
 
   return (
-    <Card key={id} className="bg-slate-200 dark:bg-indigo-800 ">
+    <Card key={id} className="bg-slate-200 dark:bg-indigo-400 ">
       <CardHeader className="flex flex-row justify-between items-center">
-        <CardTitle className="text-lg md:text-xl">{name}</CardTitle>
-        <Badge>{priority}</Badge>
+        <CardTitle className="text-lg md:text-xl font-extrabold">
+          {name}
+        </CardTitle>
+        <Badge>{checkPriority(priority)}</Badge>
       </CardHeader>
       <CardContent>
-        <CardDescription>
+        <CardDescription className="text-slate-800">
           {showFullDescription ? description : truncateDescription(description)}
         </CardDescription>
-        {description && description.split(" ").length > 15 && (
+        {description && description.length > 50 && (
           <Button
             variant="link"
-            className="text-blue-500 p-0"
+            className="text-blue-500 p-0 hover:underline decoration-black transition-all"
             onClick={toggleDescription}
           >
-            {showFullDescription ? "Read Less" : "Read More"}
+            {showFullDescription ? (
+              <p className="text-black">Read Less </p>
+            ) : (
+              <p className="text-black">Read More </p>
+            )}
           </Button>
         )}
-        <p>Date: {new Date(date).toLocaleDateString()}</p>
+        <div className="flex justify-between">
+          <p className="text-indigo-500 font-bold mt-3">
+            Date:{" "}
+            <span className="text-indigo-600">
+              {new Date(
+                date.split("/").reverse().join("-")
+              ).toLocaleDateString()}
+            </span>
+          </p>
+          <p className="text-indigo-500 font-bold mt-3">
+            Days Left:{" "}
+            <span className="text-indigo-600">{dayCounter(new Date(
+                date.split("/").reverse().join("-")
+              ).toLocaleDateString())}</span>
+          </p>
+        </div>
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button className="">
@@ -73,4 +118,4 @@ export const TaskCard = ({
   );
 };
 
-export default TaskCard;
+
