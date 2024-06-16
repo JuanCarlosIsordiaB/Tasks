@@ -99,7 +99,7 @@ export function TaskForm() {
             </div>
 
             <CardFooter className="flex justify-between space-y-1.5">
-              <Link href="/" type="button" className="border p-2 rounded-md">
+              <Link href="/" type="button" className="border p-2 rounded-md ">
                 Cancel
               </Link>
               <Button
