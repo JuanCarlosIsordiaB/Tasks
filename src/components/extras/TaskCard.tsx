@@ -11,6 +11,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash } from "lucide-react";
+import { deleteTask } from "@/actions/tasks-actions";
+import Link from "next/link";
 
 interface TaskProps {
   id: number;
@@ -90,9 +92,9 @@ export const TaskCard = ({
           </Button>
         )}
         <div className="flex justify-between">
-          <p className="text-indigo-500 font-bold mt-3">
+          <p className="text-white font-bold mt-3 bg-slate-950 p-1 rounded-xl">
             Date:{" "}
-            <span className="text-indigo-600">
+            <span className="text-slate-400">
               {new Date(
                 date.split("/").reverse().join("-")
               ).toLocaleDateString()}
@@ -107,10 +109,16 @@ export const TaskCard = ({
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button className="">
+        <Link 
+          className="flex items-center border text-s border-indigo-950 px-2 py-1 rounded-xl hover:bg-indigo-950 transition-all hover:text-white"
+          href={`edit/${id}`}
+        >
           <Pencil className="w-4 h-4 mr-1" /> Edit
-        </Button>
-        <Button className="bg-red-500 hover:bg-red-800 transition-all text-white">
+        </Link>
+        <Button 
+          className="bg-red-500 hover:bg-red-800 transition-all text-white"
+          onClick={() => deleteTask(id.toString())}
+        >
           <Trash className="w-4 h-4 mr-1 text-white" /> Delete
         </Button>
       </CardFooter>
